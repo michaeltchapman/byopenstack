@@ -1,5 +1,8 @@
 # -*- mode: ruby -*-
 # vi: set ft=ruby :
+
+BOX = 'centos64'
+
 def configure(config)
   config.vm.provider "virtualbox" do |vb|
     vb.customize ["modifyvm", :id, "--natdnsproxy1", "off"]
@@ -21,7 +24,7 @@ end
 Vagrant.configure("2") do |config|
 
   config.vm.define "control" do |control|
-    control.vm.box = "centos64"
+    control.vm.box = BOX
     control.vm.hostname = "control"
     control.vm.network "private_network", :ip => "192.168.242.10"
     control.vm.network "private_network", :ip => "10.2.3.10"
@@ -30,7 +33,7 @@ Vagrant.configure("2") do |config|
   end
 
   config.vm.define "compute" do |compute|
-    compute.vm.box = "centos64"
+    compute.vm.box = BOX
     compute.vm.hostname = "compute"
     compute.vm.network "private_network", :ip => "192.168.242.21"
     compute.vm.network "private_network", :ip => "10.2.3.21"
