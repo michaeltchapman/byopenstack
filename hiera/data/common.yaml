@@ -1,16 +1,27 @@
 control_classes:
   - openstack_extras::repo::redhat::redhat
   - mysql::server
+
   - keystone
   - keystone::roles::admin
   - keystone::db::mysql
   - openstack::auth_file
+
   - glance::api
   - glance::registry
   - glance::db::mysql
   - glance::keystone::auth
   - glance::backend::file
+
   - nova::rabbitmq
+
+  - nova
+  - nova::api
+  - nova::scheduler
+  - nova::network::neutron
+  - nova::conductor
+  - nova::db::mysql
+  - nova::keystone::auth
 
 compute_classes:
   - openstack_extras::repo::redhat::redhat
@@ -72,3 +83,30 @@ nova::rabbitmq::rabbitmq_class: '::rabbitmq'
 rabbitmq::node_ip_address: "%{hiera('control_internal')}"
 rabbitmq::manage_repos: false
 
+nova::database_connection: "mysql://nova:nova_pass@%{hiera('control_internal')}/nova"
+nova::glance_api_servers: "%{hiera('control_public')}:9292"
+nova::rabbit_host: "%{hiera('control_internal')}"
+nova::mysql_module: "%{hiera('mysql_module')}"
+
+nova::api::admin_password: nova_pass
+nova::api::enabled: true
+nova::api::auth_host: "%{hiera('control_public')}"
+nova::api::bind_address: "%{hiera('control_public')}"
+nova::api::metadata_listen: "%{hiera('control_public')}"
+
+nova::scheduler::enabled: true
+
+nova::network::neutron::neutron_admin_password: neutron_pass
+nova::network::neutron::neutron_url: "http://%{hiera('control_public')}:9696"
+nova::network::neutron::neutron_admin_auth_url: "http://%{hiera('control_public')}:35357/v2.0"
+
+nova::conductor::enabled: true
+
+nova::db::mysql::password: nova_pass
+nova::db::mysql::host: "%{hiera('control_internal')}"
+nova::db::mysql::mysql_module: "%{hiera('mysql_module')}"
+
+nova::keystone::auth::password: nova_pass
+nova::keystone::auth::public_address: "%{hiera('control_public')}"
+nova::keystone::auth::admin_address: "%{hiera('control_public')}"
+nova::keystone::auth::internal_address: "%{hiera('control_public')}"

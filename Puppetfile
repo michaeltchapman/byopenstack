@@ -10,5 +10,6 @@ mod 'stackforge/nova', :git => "https://github.com/stackforge/puppet-nova.git", 
 mod 'stackforge/keystone', :git => "https://github.com/stackforge/puppet-keystone.git", :ref => 'stable/icehouse'
 mod 'stackforge/glance', :git => "https://github.com/stackforge/puppet-glance.git", :ref => 'stable/icehouse'
 mod 'stackforge/neutron', :git => "https://github.com/stackforge/puppet-neutron.git", :ref => 'stable/icehouse'
+mod 'stackforge/cinder', :git => "https://github.com/stackforge/puppet-cinder.git", :ref => 'stable/icehouse'
 
 mod 'nanliu/staging', :git => "https://github.com/nanliu/puppet-staging.git", :ref => 'master'
