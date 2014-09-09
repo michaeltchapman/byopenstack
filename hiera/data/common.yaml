@@ -1,0 +1,8 @@
+control_classes:
+  - openstack_extras::repo::redhat::redhat
+  - mysql::server
+
+compute_classes:
+  - openstack_extras::repo::redhat::redhat
+
+mysql::server::root_password: test123
