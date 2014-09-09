@@ -1,7 +1,7 @@
 mod 'puppetlabs/stdlib', :git => "https://github.com/puppetlabs/puppetlabs-stdlib.git", :ref => 'master'
 mod 'puppetlabs/mysql', :git => "https://github.com/puppetlabs/puppetlabs-mysql.git", :ref => 'master'
 mod 'puppetlabs/rabbitmq', :git => "https://github.com/puppetlabs/puppetlabs-rabbitmq.git", :ref => 'master'
-mod 'puppetlabs/inifile', :git => "https://github.com/puppetlabs/puppet-inifile.git", :ref => 'master'
+mod 'puppetlabs/inifile', :git => "https://github.com/puppetlabs/puppetlabs-inifile.git", :ref => 'master'
 
 mod 'stackforge/openstack', :git => "https://github.com/stackforge/puppet-openstack.git", :ref => 'master'
 mod 'aptira/openstack_extras', :git => "https://github.com/aptira/puppet-openstack_extras.git", :ref => 'master'
