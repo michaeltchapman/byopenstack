@@ -52,7 +52,7 @@ if [ "${puppet_version}" != "${desired_puppet}" ] ; then
   echo 'gpgcheck=1' >> /etc/yum.repos.d/puppetlabs.repo
   echo 'gpgkey=http://yum.puppetlabs.com/RPM-GPG-KEY-puppetlabs' >> /etc/yum.repos.d/puppetlabs.repo
 
-  yum install puppet -y -q
+  yum install puppet hiera -y -q
 fi
 
 # Ensure puppet isn't going to sign a cert with the wrong time or
