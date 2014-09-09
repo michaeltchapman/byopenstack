@@ -10,6 +10,10 @@ node /compute/ {
 
 define site::role
 {
+  package { ['kernel', 'iproute', 'iputils']:
+    ensure => 'latest'
+  }
+
   $node_classes = hiera("${name}_classes", '')
   if $node_classes {
     include $node_classes
