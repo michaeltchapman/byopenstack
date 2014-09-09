@@ -6,3 +6,7 @@ compute_classes:
   - openstack_extras::repo::redhat::redhat
 
 mysql::server::root_password: test123
+
+mysql::server::override_options:
+  mysqld:
+    bind-address: "%{ipaddress_eth3}"
