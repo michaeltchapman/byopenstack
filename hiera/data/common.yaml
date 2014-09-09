@@ -10,6 +10,7 @@ control_classes:
   - glance::db::mysql
   - glance::keystone::auth
   - glance::backend::file
+  - nova::rabbitmq
 
 compute_classes:
   - openstack_extras::repo::redhat::redhat
@@ -65,3 +66,9 @@ glance::keystone::auth::password: glance_pass
 glance::keystone::auth::public_address: "%{hiera('control_public')}"
 glance::keystone::auth::admin_address: "%{hiera('control_public')}"
 glance::keystone::auth::internal_address: "%{hiera('control_public')}"
+
+nova::rabbitmq::rabbitmq_class: '::rabbitmq'
+
+rabbitmq::node_ip_address: "%{hiera('control_internal')}"
+rabbitmq::manage_repos: false
+
