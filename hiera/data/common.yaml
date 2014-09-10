@@ -25,6 +25,7 @@ control_classes:
 
   - neutron
   - neutron::server
+  - neutron::server::notifications
   - neutron::agents::metadata
   - neutron::agents::l3
   - neutron::agents::dhcp
@@ -67,10 +68,6 @@ openstack_extras::repo::redhat::redhat::repo_hash:
     'baseurl': "%{hiera('yum_epel_mirror')}/$releasever/$basearch/"
     'gpgkey': 'file:///etc/pki/rpm-gpg/RPM-GPG-KEY-EPEL-6'
     'failovermethod': 'priority'
-  'elruby':
-    'descr': 'elruby replacement 2.0.0'
-    'baseurl': 'http://elruby.websages.com/replacement/2.0.0/$releasever/$basearch/'
-    'gpgcheck' : 0
 openstack_extras::repo::redhat::redhat::gpgkey_hash:
   '/etc/pki/rpm-gpg/RPM-GPG-KEY-EPEL-6':
     'source': 'puppet:///modules/openstack_extras/RPM-GPG-KEY-EPEL-6'
@@ -152,8 +149,8 @@ nova::scheduler::enabled: true
 nova::network::neutron::neutron_admin_password: neutron_pass
 nova::network::neutron::neutron_url: "http://%{hiera('control_public')}:9696"
 nova::network::neutron::neutron_admin_auth_url: "http://%{hiera('control_public')}:35357/v2.0"
-nova::network::neutron::vif_plugging_is_fatal: false
-nova::network::neutron::vif_plugging_timeout: 0
+#nova::network::neutron::vif_plugging_is_fatal: false
+#nova::network::neutron::vif_plugging_timeout: 0
 
 nova::conductor::enabled: true
 
@@ -179,6 +176,14 @@ neutron::server::auth_host: "%{hiera('control_public')}"
 neutron::server::database_connection: "mysql://neutron:neutron_pass@%{hiera('control_internal')}/neutron"
 neutron::server::auth_password: neutron_pass
 neutron::server::mysql_module: "%{hiera('mysql_module')}"
+
+neutron::server::notifications::notify_nova_on_port_status_changes: true
+neutron::server::notifications::notify_nova_on_port_data_changes: true
+neutron::server::notifications::nova_admin_auth_url: "http://%{hiera('control_public')}:35357/v2.0"
+neutron::server::notifications::nova_url: "http://%{hiera('control_public')}:8774/v2"
+neutron::server::notifications::nova_admin_username: nova
+neutron::server::notifications::nova_admin_password: nova_pass
+
 
 neutron::agents::metadata::auth_password: neutron_pass
 neutron::agents::metadata::shared_secret: a_secret
