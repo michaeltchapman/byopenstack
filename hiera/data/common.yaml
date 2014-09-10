@@ -1,54 +1,12 @@
 control_classes:
   - openstack_extras::repo::redhat::redhat
-  - mysql::server
-
-  - keystone
-  - keystone::roles::admin
-  - keystone::db::mysql
-  - openstack::auth_file
-
-  - glance::api
-  - glance::registry
-  - glance::db::mysql
-  - glance::keystone::auth
-  - glance::backend::file
-
-  - nova::rabbitmq
-
-  - nova
-  - nova::api
-  - nova::scheduler
-  - nova::network::neutron
-  - nova::conductor
-  - nova::db::mysql
-  - nova::keystone::auth
-
-  - neutron
-  - neutron::server
-  - neutron::server::notifications
-  - neutron::agents::metadata
-  - neutron::agents::l3
-  - neutron::agents::dhcp
-  - neutron::agents::ml2::ovs
-  - neutron::plugins::ml2
-  - neutron::db::mysql
-  - neutron::keystone::auth
 
 compute_classes:
   - openstack_extras::repo::redhat::redhat
-  - nova
-  - nova::compute
-  - nova::compute::libvirt
-  - nova::network::neutron
-  - nova::compute::neutron
-  - neutron
-  - neutron::plugins::ml2
-  - neutron::agents::ml2::ovs
 
-# Shared data
-control_public: 10.2.3.10
-control_internal: 10.3.3.10
-mysql_module: '2.2'
+control_public:
+control_internal:
+mysql_module:
 yum_base_mirror: 'http://centos.mirror.uber.com.au'
 yum_epel_mirror: 'http://fedora.mirror.uber.com.au/epel'
 
@@ -81,140 +39,137 @@ openstack_extras::repo::redhat::redhat::manage_epel: false
 mysql::server::root_password: test123
 mysql::server::override_options:
   mysqld:
-    bind-address: "%{ipaddress_eth3}"
+    bind-address:
     default_table_type: InnoDB
 
+# Shared Data
+control_public:
+control_internal:
+mysql_module:
+
 # Keystone
-keystone::db::mysql::mysql_module: "%{hiera('mysql_module')}"
-keystone::db::mysql::password: key_pass
-keystone::db::mysql::host: "%{hiera('control_internal')}"
+keystone::db::mysql::mysql_module:
+keystone::db::mysql::password:
+keystone::db::mysql::host:
 
-keystone::roles::admin::email: user@example.com
-keystone::roles::admin::password: admin_pass
+keystone::roles::admin::email:
+keystone::roles::admin::password:
 
-keystone::admin_token: supersecret
-keystone::public_bind_host: "%{ipaddress_eth2}"
-keystone::admin_bind_host: "%{ipaddress_eth2}"
+keystone::admin_token:
+keystone::public_bind_host:
+keystone::admin_bind_host:
 keystone::mysql_module: "%{hiera('mysql_module')}"
-keystone::database_connection: "mysql://keystone:key_pass@%{hiera('control_internal')}/keystone"
+keystone::database_connection:
 
-openstack::auth_file::admin_password: admin_pass
-openstack::auth_file::keystone_admin_token: supersecret
-openstack::auth_file::controller_node: "%{hiera('control_public')}"
+openstack::auth_file::admin_password:
+openstack::auth_file::keystone_admin_token:
+openstack::auth_file::controller_node:
 
 # Glance
-glance::api::keystone_password: glance_pass
-glance::api::bind_host: "%{ipaddress_eth2}"
-glance::api::auth_host: "%{hiera('control_public')}"
-glance::api::database_connection: "mysql://glance:glance_pass@%{hiera('control_internal')}/glance"
+glance::api::keystone_password:
+glance::api::bind_host:
+glance::api::auth_host:
+glance::api::database_connection:
 glance::api::mysql_module: "%{hiera('mysql_module')}"
-glance::api::workers: 1
-glance::api::registry_host: "%{hiera('control_public')}"
+glance::api::workers:
+glance::api::registry_host:
 
-glance::registry::keystone_password: glance_pass
-glance::registry::bind_host: "%{ipaddress_eth2}"
-glance::registry::auth_host: "%{hiera('control_public')}"
-glance::registry::database_connection: "mysql://glance:glance_pass@%{hiera('control_internal')}/glance"
+glance::registry::keystone_password:
+glance::registry::bind_host:
+glance::registry::auth_host:
+glance::registry::database_connection:
 glance::registry::mysql_module: "%{hiera('mysql_module')}"
 
-glance::db::mysql::password: glance_pass
-glance::db::mysql::host: "%{hiera('control_internal')}"
+glance::db::mysql::password:
+glance::db::mysql::host:
 glance::db::mysql::mysql_module: "%{hiera('mysql_module')}"
 
-glance::keystone::auth::password: glance_pass
-glance::keystone::auth::public_address: "%{hiera('control_public')}"
-glance::keystone::auth::admin_address: "%{hiera('control_public')}"
-glance::keystone::auth::internal_address: "%{hiera('control_public')}"
+glance::keystone::auth::password:
+glance::keystone::auth::public_address:
+glance::keystone::auth::admin_address:
+glance::keystone::auth::internal_address:
 
-nova::rabbitmq::rabbitmq_class: '::rabbitmq'
+nova::rabbitmq::rabbitmq_class:
 
 # Rabbit
-rabbitmq::node_ip_address: "%{hiera('control_internal')}"
-rabbitmq::manage_repos: false
+rabbitmq::node_ip_address:
+rabbitmq::manage_repos:
 
 # Nova
-nova::database_connection: "mysql://nova:nova_pass@%{hiera('control_internal')}/nova"
-nova::glance_api_servers: "%{hiera('control_public')}:9292"
-nova::rabbit_host: "%{hiera('control_internal')}"
+nova::database_connection:
+nova::glance_api_servers:
+nova::rabbit_host:
 nova::mysql_module: "%{hiera('mysql_module')}"
 
-nova::api::admin_password: nova_pass
-nova::api::enabled: true
-nova::api::auth_host: "%{hiera('control_public')}"
-nova::api::bind_address: "%{hiera('control_public')}"
-nova::api::metadata_listen: "%{hiera('control_public')}"
+nova::api::admin_password:
+nova::api::enabled:
+nova::api::auth_host:
+nova::api::bind_address:
+nova::api::metadata_listen:
 
-nova::scheduler::enabled: true
+nova::scheduler::enabled:
 
-nova::network::neutron::neutron_admin_password: neutron_pass
-nova::network::neutron::neutron_url: "http://%{hiera('control_public')}:9696"
-nova::network::neutron::neutron_admin_auth_url: "http://%{hiera('control_public')}:35357/v2.0"
-#nova::network::neutron::vif_plugging_is_fatal: false
-#nova::network::neutron::vif_plugging_timeout: 0
+nova::network::neutron::neutron_admin_password:
+nova::network::neutron::neutron_url:
+nova::network::neutron::neutron_admin_auth_url:
 
-nova::conductor::enabled: true
+nova::conductor::enabled:
 
-nova::db::mysql::password: nova_pass
-nova::db::mysql::host: "%{hiera('control_internal')}"
+nova::db::mysql::password:
+nova::db::mysql::host:
 nova::db::mysql::mysql_module: "%{hiera('mysql_module')}"
 
-nova::keystone::auth::password: nova_pass
-nova::keystone::auth::public_address: "%{hiera('control_public')}"
-nova::keystone::auth::admin_address: "%{hiera('control_public')}"
-nova::keystone::auth::internal_address: "%{hiera('control_public')}"
+nova::keystone::auth::password:
+nova::keystone::auth::public_address:
+nova::keystone::auth::admin_address:
+nova::keystone::auth::internal_address:
 
 # Neutron
-neutron::bind_host: "%{hiera('control_public')}"
-neutron::core_plugin: neutron.plugins.ml2.plugin.Ml2Plugin
-neutron::rabbit_password: guest
+neutron::bind_host:
+neutron::core_plugin:
+neutron::rabbit_password:
 neutron::service_plugins:
-  - neutron.services.l3_router.l3_router_plugin.L3RouterPlugin
-neutron::rabbit_host: "%{hiera('control_internal')}"
+neutron::rabbit_host:
 
-neutron::server::sync_db: true
-neutron::server::auth_host: "%{hiera('control_public')}"
-neutron::server::database_connection: "mysql://neutron:neutron_pass@%{hiera('control_internal')}/neutron"
-neutron::server::auth_password: neutron_pass
+neutron::server::sync_db:
+neutron::server::auth_host:
+neutron::server::database_connection:
+neutron::server::auth_password:
 neutron::server::mysql_module: "%{hiera('mysql_module')}"
 
-neutron::server::notifications::notify_nova_on_port_status_changes: true
-neutron::server::notifications::notify_nova_on_port_data_changes: true
-neutron::server::notifications::nova_admin_auth_url: "http://%{hiera('control_public')}:35357/v2.0"
-neutron::server::notifications::nova_url: "http://%{hiera('control_public')}:8774/v2"
-neutron::server::notifications::nova_admin_username: nova
-neutron::server::notifications::nova_admin_password: nova_pass
+neutron::server::notifications::notify_nova_on_port_status_changes:
+neutron::server::notifications::notify_nova_on_port_data_changes:
+neutron::server::notifications::nova_admin_auth_url:
+neutron::server::notifications::nova_url:
+neutron::server::notifications::nova_admin_username:
+neutron::server::notifications::nova_admin_password:
 
 
-neutron::agents::metadata::auth_password: neutron_pass
-neutron::agents::metadata::shared_secret: a_secret
-neutron::agents::metadata::auth_url: "http://%{hiera('control_public')}:35357/v2.0"
-neutron::agents::metadata::metadata_ip: "%{hiera('control_public')}"
+neutron::agents::metadata::auth_password:
+neutron::agents::metadata::shared_secret:
+neutron::agents::metadata::auth_url:
+neutron::agents::metadata::metadata_ip:
 
 neutron::agents::ml2::ovs::bridge_uplinks:
-  - 'br-ex:eth2'
 neutron::agents::ml2::ovs::bridge_mappings:
-  - 'default:br-ex'
-neutron::agents::ml2::ovs::local_ip: "%{ipaddress_eth3}"
-neutron::agents::ml2::ovs::enable_tunneling: true
+neutron::agents::ml2::ovs::local_ip:
+neutron::agents::ml2::ovs::enable_tunneling:
 neutron::agents::ml2::ovs::tunnel_types:
-  - gre
-neutron::plugins::ml2::type_drivers:
-  - gre
-neutron::plugins::ml2::tenant_network_types:
-  - gre
-neutron::plugins::ml2::mechanism_drivers:
-  - openvswitch
 
-neutron::db::mysql::password: neutron_pass
-neutron::db::mysql::host: "%{hiera('control_internal')}"
+neutron::plugins::ml2::type_drivers:
+neutron::plugins::ml2::tenant_network_types:
+neutron::plugins::ml2::mechanism_drivers:
+
+neutron::db::mysql::password:
+neutron::db::mysql::host:
 neutron::db::mysql::mysql_module: "%{hiera('mysql_module')}"
 
-neutron::keystone::auth::password: neutron_pass
-neutron::keystone::auth::public_address: "%{hiera('control_public')}"
-neutron::keystone::auth::admin_address: "%{hiera('control_public')}"
-neutron::keystone::auth::internal_address: "%{hiera('control_public')}"
+neutron::keystone::auth::password:
+neutron::keystone::auth::public_address:
+neutron::keystone::auth::admin_address:
+neutron::keystone::auth::internal_address:
 
-nova::compute::enabled: true
-nova::compute::libvirt::libvirt_virt_type: qemu
+nova::compute::enabled:
+nova::compute::libvirt::libvirt_virt_type:
 
 
