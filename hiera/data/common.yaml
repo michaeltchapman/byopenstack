@@ -35,7 +35,14 @@ control_classes:
 
 compute_classes:
   - openstack_extras::repo::redhat::redhat
-
+  - nova
+  - nova::compute
+  - nova::compute::libvirt
+  - nova::network::neutron
+  - nova::compute::neutron
+  - neutron
+  - neutron::plugins::ml2
+  - neutron::agents::ml2::ovs
 
 # Shared data
 control_public: 10.2.3.10
@@ -145,6 +152,8 @@ nova::scheduler::enabled: true
 nova::network::neutron::neutron_admin_password: neutron_pass
 nova::network::neutron::neutron_url: "http://%{hiera('control_public')}:9696"
 nova::network::neutron::neutron_admin_auth_url: "http://%{hiera('control_public')}:35357/v2.0"
+nova::network::neutron::vif_plugging_is_fatal: false
+nova::network::neutron::vif_plugging_timeout: 0
 
 nova::conductor::enabled: true
 
@@ -199,3 +208,8 @@ neutron::keystone::auth::password: neutron_pass
 neutron::keystone::auth::public_address: "%{hiera('control_public')}"
 neutron::keystone::auth::admin_address: "%{hiera('control_public')}"
 neutron::keystone::auth::internal_address: "%{hiera('control_public')}"
+
+nova::compute::enabled: true
+nova::compute::libvirt::libvirt_virt_type: qemu
+
+
