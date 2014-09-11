@@ -4,9 +4,6 @@ control_classes:
 compute_classes:
   - openstack_extras::repo::redhat::redhat
 
-control_public:
-control_internal:
-mysql_module:
 yum_base_mirror: 'http://centos.mirror.uber.com.au'
 yum_epel_mirror: 'http://fedora.mirror.uber.com.au/epel'
 
