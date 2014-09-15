@@ -1,1 +1,5 @@
 .vagrant
+modules
+vendor
+.librarian
+.tmp
