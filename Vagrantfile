@@ -31,8 +31,8 @@ Vagrant.configure("2") do |config|
       vconfig.cpus = 2
     end
     control.vm.network "private_network", :ip => "192.168.242.10"
-    control.vm.network "private_network", :ip => "10.2.3.10"
-    control.vm.network "private_network", :ip => "10.3.3.10"
+    control.vm.network "private_network", :ip => "10.2.4.10"
+    control.vm.network "private_network", :ip => "10.4.4.10"
     configure(control)
   end
 
@@ -44,8 +44,8 @@ Vagrant.configure("2") do |config|
       vconfig.cpus = 2
     end
     compute.vm.network "private_network", :ip => "192.168.242.21"
-    compute.vm.network "private_network", :ip => "10.2.3.21"
-    compute.vm.network "private_network", :ip => "10.3.3.21"
+    compute.vm.network "private_network", :ip => "10.2.4.21"
+    compute.vm.network "private_network", :ip => "10.4.4.21"
     configure(compute)
   end
 
