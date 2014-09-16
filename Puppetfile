@@ -5,8 +5,8 @@ mod 'puppetlabs/inifile', :git => "https://github.com/puppetlabs/puppetlabs-inif
 
 mod 'stackforge/openstack', :git => "https://github.com/stackforge/puppet-openstack.git", :ref => 'master'
 mod 'aptira/openstack_extras', :git => "https://github.com/aptira/puppet-openstack_extras.git", :ref => 'master'
-mod 'aptira/vswitch', :git => "https://github.com/aptira/puppet-vswitch.git", :ref => 'master'
 
+mod 'stackforge/vswitch', :git => "https://github.com/stackforge/puppet-vswitch.git", :ref => 'master'
 mod 'stackforge/nova', :git => "https://github.com/stackforge/puppet-nova.git", :ref => 'stable/icehouse'
 mod 'stackforge/keystone', :git => "https://github.com/stackforge/puppet-keystone.git", :ref => 'stable/icehouse'
 mod 'stackforge/glance', :git => "https://github.com/stackforge/puppet-glance.git", :ref => 'stable/icehouse'
